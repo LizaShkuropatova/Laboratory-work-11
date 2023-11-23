@@ -1,61 +1,61 @@
-CREATE TABLE Users(
-    user_id INT PRIMARY KEY,
-    user_name VARCHAR(100),
-    user_login VARCHAR(100) UNIQUE,
-    user_password VARCHAR(100),
-    date_birth DATE
+CREATE TABLE Users (
+    User_Id INT PRIMARY KEY,
+    User_Name VARCHAR(100),
+    User_Login VARCHAR(100) UNIQUE,
+    User_Password VARCHAR(100),
+    Date_Birth DATE
 );
 
 CREATE TABLE Consumers (
-    consumer_id INT PRIMARY KEY,
-    user_id INT REFERENCES Users(user_id)
+    Consumer_Id INT PRIMARY KEY,
+    User_Id INT REFERENCES Users (User_Id)
 );
 
 CREATE TABLE EmotionRecording (
-    recording_id INT PRIMARY KEY,
-    recorder_emotion VARCHAR(255),
-    recording_comment CLOB,
-    consumer_id INT REFERENCES Consumers(consumer_id)
+    Recording_Id INT PRIMARY KEY,
+    Recorder_Emotion VARCHAR(255),
+    Recording_Comment CLOB,
+    Consumer_Id INT REFERENCES Consumers (Consumer_Id)
 );
 
 CREATE TABLE Emotion (
-    emotion_id INT PRIMARY KEY,
-    name VARCHAR(255) UNIQUE
+    Emotion_Id INT PRIMARY KEY,
+    Name VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE EmotionStatistic (
-    statistic_id INT PRIMARY KEY,
-    number_repetitions INT,
-    percentage_ratio FLOAT,
-    emotion_id INT REFERENCES Emotion(emotion_id)
+    Statistic_Id INT PRIMARY KEY,
+    Number_Repetitions INT,
+    Percentage_Ratio FLOAT,
+    Emotion_Id INT REFERENCES Emotion (Emotion_Id)
 );
 
 CREATE TABLE EmotionStatistics (
-    statistics_id INT PRIMARY KEY,
-    total_recorded_emotions INT,
-    consumer_id INT REFERENCES Consumers(consumer_id)
+    Statistics_Id INT PRIMARY KEY,
+    Total_Recorded_Emotions INT,
+    Consumer_Id INT REFERENCES Consumers (Consumer_Id)
 );
 
 CREATE TABLE HumidityEnvironment (
-    humidity_id INT PRIMARY KEY,
-    temperature FLOAT,
-    water_vapor_elasticity FLOAT,
-    relative_humidity FLOAT,
-    moisture_deficit FLOAT,
-    dewpoint FLOAT,
-    temperature_felt FLOAT
+    Humidity_Id INT PRIMARY KEY,
+    Temperature FLOAT,
+    Water_Vapor_Elasticity FLOAT,
+    Relative_Humidity FLOAT,
+    Moisture_Deficit FLOAT,
+    Dewpoint FLOAT,
+    Temperature_Felt FLOAT
 );
 
 CREATE TABLE Weather (
-    weather_id INT PRIMARY KEY,
-    temperature FLOAT,
-    weather_description VARCHAR(255)
+    Weather_Id INT PRIMARY KEY,
+    Temperature FLOAT,
+    Weather_Description VARCHAR(255)
 );
 
-ALTER TABLE Users 
-ADD CONSTRAINT User_login_format 
-CHECK (REGEXP_LIKE(login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
+ALTER TABLE Users
+ADD CONSTRAINT USER_LOGIN_FORMAT
+CHECK (REGEXP_LIKE(Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
 
 ALTER TABLE HumidityEnvironment
-ADD CONSTRAINT HumidityEnvironmentRange
-CHECK (temperature_felt BETWEEN -50.0 AND 50.0);
+ADD CONSTRAINT HUMIDITYENVIRONMENTRANGE
+CHECK (Temperature_Felt BETWEEN -50.0 AND 50.0);
