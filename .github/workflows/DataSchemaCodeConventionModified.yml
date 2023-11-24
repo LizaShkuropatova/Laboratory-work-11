@@ -1,5 +1,3 @@
-DataSchemaCodeConvention.yml
-
 name: SQLSchemaModifiedLinter
 on:
   push:
