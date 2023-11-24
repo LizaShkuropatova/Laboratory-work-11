@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-    User_Id INT PRIMARY KEY,
+    Id_User INT PRIMARY KEY,
     User_Name VARCHAR(100),
     User_Login VARCHAR(100) UNIQUE,
     User_Password VARCHAR(100),
@@ -7,37 +7,37 @@ CREATE TABLE Users (
 );
 
 CREATE TABLE Consumers (
-    Consumer_Id INT PRIMARY KEY,
-    User_Id INT REFERENCES Users (User_Id)
+    Id_Consumer INT PRIMARY KEY,
+    User_Id INT REFERENCES Users (Id_User)
 );
 
 CREATE TABLE EmotionRecording (
-    Recording_Id INT PRIMARY KEY,
+    Id_Recording INT PRIMARY KEY,
     Recorder_Emotion VARCHAR(255),
     Recording_Comment CLOB,
-    Consumer_Id INT REFERENCES Consumers (Consumer_Id)
+    Consumer_Id INT REFERENCES Consumers (Id_Consumer)
 );
 
 CREATE TABLE Emotion (
-    Emotion_Id INT PRIMARY KEY,
+    Id_Emotion INT PRIMARY KEY,
     Emotion_Name VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE EmotionStatistic (
-    Statistic_Id INT PRIMARY KEY,
+    Id_Statistic INT PRIMARY KEY,
     Number_Repetitions INT,
     Percentage_Ratio FLOAT,
-    Emotion_Id INT REFERENCES Emotion (Emotion_Id)
+    Emotion_Id INT REFERENCES Emotion (Id_Emotion)
 );
 
 CREATE TABLE EmotionStatistics (
-    Statistics_Id INT PRIMARY KEY,
+    Id_Statistics INT PRIMARY KEY,
     Total_Recorded_Emotions INT,
-    Consumer_Id INT REFERENCES Consumers (Consumer_Id)
+    Consumer_Id INT REFERENCES Consumers (Id_Consumer)
 );
 
 CREATE TABLE HumidityEnvironment (
-    Humidity_Id INT PRIMARY KEY,
+    Id_Humidity INT PRIMARY KEY,
     Temperature FLOAT,
     Water_Vapor_Elasticity FLOAT,
     Relative_Humidity FLOAT,
@@ -47,8 +47,8 @@ CREATE TABLE HumidityEnvironment (
 );
 
 CREATE TABLE Weather (
-    Weather_Id INT PRIMARY KEY,
-    Temperature FLOAT,
+    Id_Weather INT PRIMARY KEY,
+    Weather_Temperature FLOAT,
     Weather_Description VARCHAR(255)
 );
 
@@ -57,5 +57,5 @@ ADD CONSTRAINT USER_LOGIN_FORMAT
 CHECK (REGEXP_LIKE(User_Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
 
 ALTER TABLE HumidityEnvironment
-ADD CONSTRAINT HUMIDITYENVIRONMENTRANGE
+ADD CONSTRAINT TEMPERATURE_FELT_RANGE
 CHECK (Temperature_Felt BETWEEN -50.0 AND 50.0);
