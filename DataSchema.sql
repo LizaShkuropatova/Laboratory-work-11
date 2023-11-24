@@ -20,7 +20,7 @@ CREATE TABLE EmotionRecording (
 
 CREATE TABLE Emotion (
     Emotion_Id INT PRIMARY KEY,
-    Name VARCHAR(255) UNIQUE
+    Emotion_Name VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE EmotionStatistic (
@@ -54,7 +54,7 @@ CREATE TABLE Weather (
 
 ALTER TABLE Users
 ADD CONSTRAINT USER_LOGIN_FORMAT
-CHECK (REGEXP_LIKE(Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
+CHECK (REGEXP_LIKE(User_Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
 
 ALTER TABLE HumidityEnvironment
 ADD CONSTRAINT HUMIDITYENVIRONMENTRANGE
