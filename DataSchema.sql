@@ -51,11 +51,3 @@ CREATE TABLE Weather (
     Weather_Temperature FLOAT,
     Weather_Description VARCHAR(255)
 );
-
-ALTER TABLE Users
-ADD CONSTRAINT USER_LOGIN_FORMAT
-CHECK (REGEXP_LIKE(User_Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
-
-ALTER TABLE HumidityEnvironment
-ADD CONSTRAINT TEMPERATURE_FELT_RANGE
-CHECK (Temperature_Felt BETWEEN -50.0 AND 50.0);
