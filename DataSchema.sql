@@ -51,7 +51,3 @@ CREATE TABLE Weather (
     Weather_Temperature FLOAT,
     Weather_Description VARCHAR(255)
 );
-
-ALTER TABLE Users
-ADD CONSTRAINT USER_LOGIN_FORMAT
-CHECK (REGEXP_LIKE(User_Login, '^[a-z0-9._-]+@[a-z]+\.[a-z]{2,4}$'));
