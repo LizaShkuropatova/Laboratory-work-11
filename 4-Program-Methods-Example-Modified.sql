@@ -5,7 +5,7 @@ CREATE OR REPLACE TYPE T_HumidityEnvironment AS OBJECT (
     relative_humidity FLOAT,
     moisture_deficit FLOAT,
     dewpoint FLOAT,
-    temperature_felt float
+    temperature_felt FLOAT
 );
 
 CREATE OR REPLACE FUNCTION observeHumidity(humidityData IN OBJ_HumidityEnvironment) RETURN VARCHAR2 IS
