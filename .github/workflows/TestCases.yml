@@ -1,4 +1,4 @@
-name: Run Oracle SQL
+name: Module Testing
 
 on:
   push:
@@ -6,28 +6,25 @@ on:
       - main
 
 jobs:
-  run-sql:
+  run-tests:
     runs-on: ubuntu-latest
-
-    env:
-      ORACLE_USERNAME: shkuropatova
-      ORACLE_PASSWORD: p1P34ab#
-      ORACLE_CONNECTION_STRING: //185.235.218.67:1521/XEPDB1
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install Oracle Instant Client
-      run: |
-        sudo apt-get install -y libaio1
-        mkdir -p ~/instantclient
-        cd ~/instantclient
-        wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-        unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-        echo '/home/runner/instantclient' | sudo tee -a /etc/ld.so.conf.d/oracle-instantclient.conf
-        sudo ldconfig
+    - name: Set up Oracle Instant Client
+      uses: stefanprodan/docusaurus-action-oracledb@v1
+      with:
+        login: shkuropatova
+        password: p1P34ab#  # Замініть на ваш пароль
+        host: 185.235.218.67
+        port: 1521
+        service: XEPDB1
 
-    - name: Run SQL script
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Module Tests
       run: |
-        echo "exit" | PATH=$PATH:/home/runner/instantclient/instantclient_19_9 sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
+        sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @path/to/your/test_script.sql
