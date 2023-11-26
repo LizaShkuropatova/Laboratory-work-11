@@ -26,10 +26,11 @@ jobs:
         sudo apt-get install libaio-dev
         sudo apt-get install libncurses5
 
-    - name: Set up Oracle environment
+    - name: Debug Oracle environment
       run: |
-        echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/oracle/21/client64/lib" >> $GITHUB_ENV
-        echo "export ORACLE_HOME=/usr/lib/oracle/21/client64" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
+        echo "ORACLE_HOME: $ORACLE_HOME"
+        echo "PATH: $PATH"
 
     - name: Install dependencies
       run: npm install
