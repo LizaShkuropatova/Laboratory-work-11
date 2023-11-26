@@ -35,4 +35,5 @@ jobs:
 
     - name: Run Module Tests
       run: |
-        /home/runner/instantclient/sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
+        export PATH=/path/to/your/instantclient:$PATH
+        sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
