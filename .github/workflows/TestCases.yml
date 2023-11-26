@@ -14,20 +14,26 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Oracle Instant Client
-      uses: stefanprodan/docusaurus-action-oracledb@v1
+      uses: oracle/setup-instantclient@v1
       with:
-        login: shkuropatova
-        password: p1P34ab#  # Замініть на ваш пароль
-        host: 185.235.218.67
-        port: 1521
-        service: XEPDB1
+        username: shkuropatova
+        password: p1P34ab#
+        connect-string: "@185.235.218.67:1521/XEPDB1"
+
+    - name: Install Oracle Instant Client libraries
+      run: |
+        sudo apt-get install libaio1
+        sudo apt-get install libaio-dev
+        sudo apt-get install libncurses5
+
+    - name: Set up Oracle environment
+      run: |
+        echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/oracle/21/client64/lib" >> $GITHUB_ENV
+        echo "export ORACLE_HOME=/usr/lib/oracle/21/client64" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: npm install
 
     - name: Run Module Tests
       run: |
-        export PATH=$PATH:/home/runner/instantclient
-        export LD_LIBRARY_PATH=/home/runner/instantclient:$LD_LIBRARY_PATH
-        sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @path/to/your/test_script.sql
-
+        sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
