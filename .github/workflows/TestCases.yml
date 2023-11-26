@@ -1,4 +1,4 @@
-name: Module Testing
+name: Run SQL Tests
 
 on:
   push:
@@ -6,34 +6,28 @@ on:
       - main
 
 jobs:
-  run-tests:
+  run-sql:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Oracle Instant Client
-      uses: oracle/setup-instantclient@v1
-      with:
-        username: shkuropatova
-        password: p1P34ab#
-        connect-string: "@185.235.218.67:1521/XEPDB1"
-
-    - name: Install Oracle Instant Client libraries
+    - name: Set up Oracle SQLPlus
       run: |
-        sudo apt-get install libaio1 libaio-dev libncurses5
+        sudo apt-get update
+        sudo apt-get install alien libaio1 unixodbc
+        # Download and install Oracle instant client and sqlplus (replace 'instantclient-basiclite-linux.x64-12.2.0.1.0.zip' and 'instantclient-sqlplus-linux.x64-12.2.0.1.0.zip' with the version you want to install)
+        wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basiclite-linux.x64-19.3.0.0.0dbru.zip
+        wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-sqlplus-linux.x64-19.3.0.0.0dbru.zip
+        unzip instantclient-basiclite-linux.x64-19.3.0.0.0dbru.zip
+        unzip instantclient-sqlplus-linux.x64-19.3.0.0.0dbru.zip
+        sudo alien -i instantclient-basiclite-*.rpm
+        sudo alien -i instantclient-sqlplus-*.rpm
+        echo 'export LD_LIBRARY_PATH=/usr/lib/oracle/19.3/client64/lib/${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}' >> ~/.bashrc
+        echo 'export PATH=/usr/lib/oracle/19.3/client64/bin:$PATH' >> ~/.bashrc
+        source ~/.bashrc
 
-    - name: Set up Oracle environment
+    - name: Run SQL code
       run: |
-        echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/instantclient" >> $GITHUB_ENV
-        echo "export ORACLE_HOME=/home/runner/instantclient" >> $GITHUB_ENV
-        echo "export PATH=$PATH:/home/runner/instantclient" >> $GITHUB_ENV
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Run Module Tests
-      run: |
-        export PATH=/path/to/your/instantclient:$PATH
         sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
