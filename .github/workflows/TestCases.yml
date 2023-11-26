@@ -29,4 +29,3 @@ jobs:
       run: |
         export PATH=$PATH:/home/runner/instantclient  # Додаємо каталог з sqlplus до шляху виконання
         sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @path/to/your/test_script.sql
-
