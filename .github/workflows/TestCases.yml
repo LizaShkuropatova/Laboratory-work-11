@@ -17,7 +17,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install alien libaio1 unixodbc
-        # Download and install Oracle instant client and sqlplus (replace 'instantclient-basiclite-linux.x64-12.2.0.1.0.zip' and 'instantclient-sqlplus-linux.x64-12.2.0.1.0.zip' with the version you want to install)
         wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-basiclite-linux.x64-19.3.0.0.0dbru.zip
         wget https://download.oracle.com/otn_software/linux/instantclient/193000/instantclient-sqlplus-linux.x64-19.3.0.0.0dbru.zip
         unzip instantclient-basiclite-linux.x64-19.3.0.0.0dbru.zip
@@ -30,4 +29,5 @@ jobs:
 
     - name: Run SQL code
       run: |
+        export PATH=/home/runner/instantclient:$PATH
         sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
