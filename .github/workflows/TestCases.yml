@@ -18,7 +18,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Install Oracle Instant Client and Run SQL script
+    - name: Install Oracle Instant Client
       run: |
         sudo apt-get install -y libaio1
         mkdir -p ~/instantclient
@@ -27,5 +27,10 @@ jobs:
         unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
         echo '/home/runner/instantclient' | sudo tee -a /etc/ld.so.conf.d/oracle-instantclient.conf
         sudo ldconfig
-        echo 'export PATH=$PATH:/home/runner/instantclient' >> $GITHUB_ENV
-        echo "exit" | sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
+
+    - name: Set up environment for Oracle Instant Client
+      run: echo 'export PATH=$PATH:/home/runner/instantclient' >> $GITHUB_ENV
+
+    - name: Run SQL script
+      run: |
+        echo "exit" | /home/runner/instantclient/instantclient_19_9/sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
