@@ -25,8 +25,11 @@ jobs:
         cd ~/instantclient
         wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
         unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-        echo '/instantclient' | sudo tee -a /etc/ld.so.conf.d/oracle-instantclient.conf
+        echo '/home/runner/instantclient' | sudo tee -a /etc/ld.so.conf.d/oracle-instantclient.conf
         sudo ldconfig
+
+    - name: Set up environment for Oracle Instant Client
+      run: echo 'export PATH=$PATH:/home/runner/instantclient' >> $GITHUB_ENV
 
     - name: Run SQL script
       run: |
