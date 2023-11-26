@@ -22,19 +22,17 @@ jobs:
 
     - name: Install Oracle Instant Client libraries
       run: |
-        sudo apt-get install libaio1
-        sudo apt-get install libaio-dev
-        sudo apt-get install libncurses5
+        sudo apt-get install libaio1 libaio-dev libncurses5
 
-    - name: Debug Oracle environment
+    - name: Set up Oracle environment
       run: |
-        echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
-        echo "ORACLE_HOME: $ORACLE_HOME"
-        echo "PATH: $PATH"
+        echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/runner/instantclient" >> $GITHUB_ENV
+        echo "export ORACLE_HOME=/home/runner/instantclient" >> $GITHUB_ENV
+        echo "export PATH=$PATH:/home/runner/instantclient" >> $GITHUB_ENV
 
     - name: Install dependencies
       run: npm install
 
     - name: Run Module Tests
       run: |
-        sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
+        /home/runner/instantclient/sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @TestCases.sql
