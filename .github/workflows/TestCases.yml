@@ -33,4 +33,5 @@ jobs:
 
     - name: Run SQL script
       run: |
-        echo "exit" | /home/runner/instantclient/instantclient_19_9/sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
+        export PATH=$PATH:/home/runner/instantclient/instantclient_19_9
+        echo "exit" | sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
