@@ -28,10 +28,6 @@ jobs:
         echo '/home/runner/instantclient' | sudo tee -a /etc/ld.so.conf.d/oracle-instantclient.conf
         sudo ldconfig
 
-    - name: Set up environment for Oracle Instant Client
-      run: echo 'export PATH=$PATH:/home/runner/instantclient' >> $GITHUB_ENV
-
     - name: Run SQL script
       run: |
-        export PATH=$PATH:/home/runner/instantclient/instantclient_19_9
-        echo "exit" | sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
+        echo "exit" | /home/runner/instantclient/instantclient_19_9/sqlplus -S $ORACLE_USERNAME/$ORACLE_PASSWORD@$ORACLE_CONNECTION_STRING @path/to/your/sql/script.sql
