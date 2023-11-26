@@ -17,8 +17,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install alien libaio1 unixodbc
-        wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-21.3.1.281.1619.zip
-        unzip sqlcl-21.3.1.281.1619.zip
+        wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
+        unzip sqlcl-latest.zip
         echo 'export PATH=/home/runner/sqlcl/bin:$PATH' >> ~/.bashrc
         source ~/.bashrc
 
