@@ -27,5 +27,7 @@ jobs:
 
     - name: Run Module Tests
       run: |
-        export PATH=$PATH:/home/runner/instantclient  # Додаємо каталог з sqlplus до шляху виконання
+        export PATH=$PATH:/home/runner/instantclient
+        export LD_LIBRARY_PATH=/home/runner/instantclient:$LD_LIBRARY_PATH
         sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1 @path/to/your/test_script.sql
+
