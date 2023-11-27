@@ -8,8 +8,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
     steps:
-      - name: Встановлення Oracle Instant Client
+      - name:  Встановлення Oracle Instant Client
         run: |
           sudo apt-get install -y libaio1
           wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
@@ -20,4 +24,3 @@ jobs:
       - name: Виконання SQL на віддаленому Oracle-сервері
         run: |
           /path/to/instantclient/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
-        shell: /bin/bash
