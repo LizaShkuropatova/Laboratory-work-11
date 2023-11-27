@@ -1,102 +1,191 @@
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import java.sql.*;
+import oracle.jdbc.driver.*;
 
-public class HumidityObservation {
+public class PLSQLTestCases {
+    public static void main(String[] args) {
+        int testCaseResult = 0; // 0 = Passed, -1 = Failed
 
-    public static String observeHumidity(T_HumidityEnvironment humidityData) {
-        String result;
+        try {
+            // Load Oracle JDBC driver
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 
-        // Establish a database connection
-        try (Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@//localhost:1521/yourdatabase", "username", "password")) {
-            // Create a prepared statement with the function call
-            String sql = "SELECT observeHumidity(?, ?, ?, ?, ?, ?) FROM DUAL";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setFloat(1, humidityData.getTemperature());
-                statement.setFloat(2, humidityData.getWaterVaporElasticity());
-                statement.setFloat(3, humidityData.getRelativeHumidity());
-                statement.setFloat(4, humidityData.getMoistureDeficit());
-                statement.setFloat(5, humidityData.getDewpoint());
-                statement.setFloat(6, humidityData.getTemperatureFelt());
+            // Open connection to the database
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:oracle:thin:@185.235.218.67:1521/XEPDB1",
+                    args[0], // get login as 1st command line parameter
+                    args[1]); // get password as 2nd command line parameter
 
-                // Execute the query
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
-                        result = resultSet.getString(1);
-                    } else {
-                        result = "No result";
-                    }
-                }
+            // Prepare the PL/SQL call for the function
+            CallableStatement callableStatement = connection.prepareCall("{? = call observeHumidity(?,?,?,?,?)}");
+            callableStatement.registerOutParameter(1, Types.VARCHAR);
+
+            // Test Case 1.1: Correct test
+            System.out.print("TC1.1: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("1".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
             }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Test Case 1.2: Temperature out of bounds
+            System.out.print("TC1.2: ");
+            callableStatement.setInt(2, 52);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Test Case 1.3: Elasticity out of bounds
+            System.out.print("TC1.3: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 0);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Repeat the above structure for TC1.4, TC1.5, TC1.6, and TC1.7...
+
+            // Test Case 1.4: Relative humidity out of bounds
+            System.out.print("TC1.4: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 120);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Test Case 1.5: Wet bulb deficit less than 0
+            System.out.print("TC1.5: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, -5);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Repeat the above structure for TC1.6 and TC1.7...
+
+            // Test Case 1.6: Dew point out of bounds
+            System.out.print("TC1.6: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, 111111);
+            callableStatement.setInt(7, 5);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Test Case 1.7: Sensible temperature out of bounds
+            System.out.print("TC1.7: ");
+            callableStatement.setInt(2, 20);
+            callableStatement.setInt(3, 7);
+            callableStatement.setInt(4, 20);
+            callableStatement.setInt(5, 0);
+            callableStatement.setInt(6, -10);
+            callableStatement.setInt(7, 111111);
+
+            callableStatement.executeUpdate();
+
+            // Analyze TestCase-result
+            if ("Значення параметрів виходять за допустимі межі".equals(callableStatement.getString(1))) {
+                System.out.println("Passed");
+            } else {
+                System.out.println("Failed");
+                testCaseResult = -1;
+            }
+
+            // Clear parameters for the next test case
+            callableStatement.clearParameters();
+
+            // Close the connection
+            connection.close();
+
         } catch (SQLException e) {
-            result = "SQL Error: " + e.getMessage();
+            System.out.println("SQLException: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
         }
 
-        return result;
-    }
-
-    public static void main(String[] args) {
-        // Example usage
-        T_HumidityEnvironment humidityData = new T_HumidityEnvironment(20.0f, 7.0f, 30.0f, 5.0f, 10.0f, 25.0f);
-        String observationResult = observeHumidity(humidityData);
-        System.out.println("Observation Result: " + observationResult);
-    }
-}
-
-public class HumidityObservationTest {
-    
-    @Test
-    public void testObserveHumidity() {
-        // TC1.1: Правильний тест
-        T_HumidityEnvironment humidityData1 = new T_HumidityEnvironment(20, 7, 20, 0, -10, 5);
-        assertEquals("1", observeHumidity(humidityData1));
-
-        // TC1.2: Порушення умови (температура за межами)
-        humidityData1 = new T_HumidityEnvironment(52, 7, 20, 0, -10, 5);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-
-        // TC1.3: Порушення умови (еластичність пари за межами)
-        humidityData1 = new T_HumidityEnvironment(20, 0, 20, 0, -10, 5);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-
-        // TC1.4: Порушення умови (відносна вологість за межами)
-        humidityData1 = new T_HumidityEnvironment(20, 7, 120, 0, -10, 5);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-
-        // TC1.5: Порушення умови (вологий дефіцит менше 0)
-        humidityData1 = new T_HumidityEnvironment(20, 7, 20, -5, -10, 5);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-
-        // TC1.6: Порушення умови (точка роси за межами)
-        humidityData1 = new T_HumidityEnvironment(20, 7, 20, 0, 111111, 5);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-
-        // TC1.7: Порушення умови (відчутна температура за межами)
-        humidityData1 = new T_HumidityEnvironment(20, 7, 20, 0, -10, 111111);
-        assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
-    }
-}
-
-class T_HumidityEnvironment {
-    private float temperature;
-    private float waterVaporElasticity;
-    private float relativeHumidity;
-    private float moistureDeficit;
-    private float dewpoint;
-    private float temperatureFelt;
-
-    public T_HumidityEnvironment(float temperature, float waterVaporElasticity, float relativeHumidity,
-                                 float moistureDeficit, float dewpoint, float temperatureFelt) {
-        this.temperature = temperature;
-        this.waterVaporElasticity = waterVaporElasticity;
-        this.relativeHumidity = relativeHumidity;
-        this.moistureDeficit = moistureDeficit;
-        this.dewpoint = dewpoint;
-        this.temperatureFelt = temperatureFelt;
-    }
-
-    // Add getters for each attribute
-    // Example:
-    public float getTemperature() {
-        return temperature;
+        System.exit(testCaseResult);
     }
 }
