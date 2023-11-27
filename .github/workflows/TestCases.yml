@@ -1,28 +1,19 @@
-name: Run SQL Tests
+name: Test Cases
 
 on:
   push:
-    branches:
-      - main
+    branches: main
 
 jobs:
-  run-sql:
+  TestCases:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - name: Set up Oracle SQLcl
+    - name: Execute Tests
       run: |
-        sudo apt-get update
-        sudo apt-get install alien libaio1 unixodbc
-        wget https://download.oracle.com/otn_software/java/sqldeveloper/sqlcl-latest.zip
-        unzip sqlcl-latest.zip
-        echo 'export PATH=/home/runner/sqlcl/bin:$PATH' >> ~/.bashrc
-        source ~/.bashrc
-
-    - name: Run SQL code
-      run: |
-        echo "Executing SQL command: sql 'shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1' @TestCases.sql"
-        sql 'shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1' @TestCases.sql
+        cd $GITHUB_WORKSPACE/
+        chmod +x TestCases.sh
+        ./TestCases.sh ${{ secrets.LOGIN }} ${{ secrets.PASSWORD }}
