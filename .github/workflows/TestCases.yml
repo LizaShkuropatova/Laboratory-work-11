@@ -13,7 +13,7 @@ jobs:
         shell: bash
 
     steps:
-      - name:  Встановлення Oracle Instant Client
+      - name: Install Oracle Instant Client
         run: |
           sudo apt-get install -y libaio1
           wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
@@ -21,6 +21,10 @@ jobs:
           sudo sh -c "echo /path/to/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
-      - name: Виконання SQL на віддаленому Oracle-сервері
+      - name: Print Instant Client Directory Contents
+        run: |
+          ls -l /path/to/instantclient
+
+      - name: Execute SQL on Remote Oracle Server
         run: |
           /path/to/instantclient/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
