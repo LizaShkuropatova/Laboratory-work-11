@@ -10,11 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Виконання SQL на віддаленому Oracle-сервері
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout репозиторію
-            uses: actions/checkout@v2
-
-          - name: Виконати SQL запит
-            run: |
-              sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
+        run: |
+          sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
