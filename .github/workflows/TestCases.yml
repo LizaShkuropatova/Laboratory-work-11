@@ -24,5 +24,5 @@ jobs:
 
     - name: Run SQL code
       run: |
-        echo "Executing SQL command: sql \"shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1\" @TestCases.sql"
-        sql "shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1" @TestCases.sql
+        echo "Executing SQL command: sql 'shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1' @TestCases.sql"
+        sql 'shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1' @TestCases.sql
