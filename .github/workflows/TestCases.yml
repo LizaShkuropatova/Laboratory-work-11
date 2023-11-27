@@ -11,7 +11,7 @@ jobs:
 
     services:
       oracle-db:
-        image: store/oracle/database-instantclient:12.2.0.1
+        image: container-registry.oracle.com/database/instantclient:12.2.0.1
         env:
           DB_PASS: ${{ secrets.PASSWORD }}
         ports:
