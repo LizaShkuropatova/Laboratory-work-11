@@ -23,4 +23,4 @@ jobs:
         sudo ldconfig
 
     - name: Виконання SQL скрипту
-      run: /usr/lib/instantclient_19_3/sqlplus shkuropatova/p1P34ab#@//https://185.235.218.67:1521/XEPDB1 @TestCases.sql
+      run: /usr/lib/instantclient_19_3/sqlplus shkuropatova/p1P34ab#@//https://185.235.218.67:1521/XEPDB1 @TestCases.java
