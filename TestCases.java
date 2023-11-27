@@ -99,3 +99,4 @@ class T_HumidityEnvironment {
     public float getTemperature() {
         return temperature;
     }
+}
