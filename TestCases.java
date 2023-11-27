@@ -34,4 +34,3 @@ public class HumidityObservationTest {
         assertEquals("Значення параметрів виходять за допустимі межі", observeHumidity(humidityData1));
     }
 }
-}
