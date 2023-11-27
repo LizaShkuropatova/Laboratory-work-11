@@ -18,5 +18,3 @@ jobs:
       cd $GITHUB_WORKSPACE/
       export CLASSPATH="./ojdbc8.jar:./"
       java TestCases ${{ secrets.LOGIN }} ${{ secrets.PASSWORD }}
-
-# sqlplus shkuropatova/p1P34ab#@185.235.218.67:1521/XEPDB1
