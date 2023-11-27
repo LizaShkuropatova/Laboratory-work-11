@@ -9,6 +9,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Встановлення Oracle Instant Client
+        run: |
+          sudo apt-get install -y libaio1
+          wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
+          unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
+          sudo sh -c "echo /path/to/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          sudo ldconfig
+
       - name: Виконання SQL на віддаленому Oracle-сервері
         run: |
-          sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
+          /path/to/instantclient/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
