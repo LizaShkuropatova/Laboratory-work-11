@@ -22,9 +22,6 @@ jobs:
           - 1521:1521
 
     steps:
-    - name: Authenticate with Oracle Container Registry
-      run: docker login -u $ORACLE_REGISTRY_USERNAME -p $ORACLE_REGISTRY_PASSWORD container-registry.oracle.com
-
     - name: Checkout repository
       uses: actions/checkout@v2
 
