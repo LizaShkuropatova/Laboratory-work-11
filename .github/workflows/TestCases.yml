@@ -1,4 +1,4 @@
-name: Modul Test
+name: Виконання SQL скрипту на віддаленому Oracle сервері
 
 on:
   push:
@@ -22,8 +22,5 @@ jobs:
         sudo sh -c "echo /usr/lib/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf"
         sudo ldconfig
 
-    - name: Встановлення sqlplus
-      run: sudo apt-get install -y sqlplus
-
     - name: Виконання SQL скрипту
-      run: sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
+      run: /usr/lib/instantclient_19_3/sqlplus shkuropatova/p1P34ab#@//https://185.235.218.67:1521/XEPDB1 @TestCases.sql
