@@ -20,3 +20,4 @@ jobs:
       - name: Виконання SQL на віддаленому Oracle-сервері
         run: |
           /path/to/instantclient/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
+        shell: /bin/bash
