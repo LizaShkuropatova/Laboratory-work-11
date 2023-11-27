@@ -1,26 +1,20 @@
-name: Виконання SQL скрипту на віддаленому Oracle сервері
-
-on:
+name: Test Cases
+on: 
   push:
-    branches:
-      - main
-
+    branches: master
 jobs:
-  run-sql-script:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout репозиторію
-      uses: actions/checkout@v2
-
-    - name: Встановлення Oracle Instant Client
-      run: |
-        sudo apt-get install -y libaio1
-        wget https://download.oracle.com/otn_software/linux/instantclient/instantclient-basiclite-linuxx64.zip
-        unzip instantclient-basiclite-linuxx64.zip
-        sudo mv instantclient* /usr/lib/
-        sudo sh -c "echo /usr/lib/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf"
-        sudo ldconfig
-
-    - name: Виконання SQL скрипту
-      run: /usr/lib/instantclient_19_3/sqlplus shkuropatova/p1P34ab#@//https://185.235.218.67:1521/XEPDB1 @TestCases.java
+ TestCases:
+  runs-on: ubuntu-latest
+  steps:
+  - name: Checkout
+    uses: "actions/checkout@v3"
+  - name: Compile
+    run: |
+      cd $GITHUB_WORKSPACE/
+      export CLASSPATH="./ojdbc8.jar:./"
+      javac TestCases.java
+  - name: Execute
+    run: |
+      cd $GITHUB_WORKSPACE/
+      export CLASSPATH="./ojdbc8.jar:./"
+      java TestCases ${{ secrets.LOGIN }} ${{ secrets.PASSWORD }}
