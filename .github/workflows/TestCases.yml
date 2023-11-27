@@ -17,4 +17,4 @@ jobs:
 
           - name: Виконати SQL запит
             run: |
-              sqlplus username/password@//185.235.218.67:1521/XEPDB1 @TestCases.sql
+              sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
