@@ -8,23 +8,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    env:
-      ORACLE_REGISTRY_USERNAME: ${{ secrets.ORACLE_REGISTRY_USERNAME }}
-      ORACLE_REGISTRY_PASSWORD: ${{ secrets.ORACLE_REGISTRY_PASSWORD }}
-
-    services:
-      oracle-db:
-        image: container-registry.oracle.com/database/instantclient:12.2.0.1
-        env:
-          DB_PASS: ${{ secrets.PASSWORD }}
-        ports:
-          - 1521:1521
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Виконання SQL на віддаленому Oracle-сервері
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout репозиторію
+            uses: actions/checkout@v2
 
-    - name: Run Module Tests
-      run: |
-        sqlplus ${{ secrets.LOGIN }}/${{ secrets.PASSWORD }}@//localhost:1521/XEPDB1 @TestCases.sql
+          - name: Виконати SQL запит
+            run: |
+              sqlplus username/password@//185.235.218.67:1521/XEPDB1 @TestCases.sql
