@@ -1,4 +1,4 @@
-name: Module Testing
+name: Modul Test
 
 on:
   push:
@@ -6,26 +6,24 @@ on:
       - main
 
 jobs:
-  test:
+  run-sql-script:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
 
     steps:
-      - name: Install Oracle Instant Client
-        run: |
-          sudo apt-get install -y libaio1
-          export INSTANT_CLIENT_PATH=~/instantclient_19_9
-          wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-          unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip -d $INSTANT_CLIENT_PATH
-          sudo sh -c "echo $INSTANT_CLIENT_PATH > /etc/ld.so.conf.d/oracle-instantclient.conf"
-          sudo ldconfig
+    - name: Checkout репозиторію
+      uses: actions/checkout@v2
 
-      - name: Print Instant Client Directory Contents
-        run: |
-          ls -l $INSTANT_CLIENT_PATH
+    - name: Встановлення Oracle Instant Client
+      run: |
+        sudo apt-get install -y libaio1
+        wget https://download.oracle.com/otn_software/linux/instantclient/instantclient-basiclite-linuxx64.zip
+        unzip instantclient-basiclite-linuxx64.zip
+        sudo mv instantclient* /usr/lib/
+        sudo sh -c "echo /usr/lib/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf"
+        sudo ldconfig
 
-      - name: Execute SQL on Remote Oracle Server
-        run: |
-          $INSTANT_CLIENT_PATH/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
+    - name: Встановлення sqlplus
+      run: sudo apt-get install -y sqlplus
+
+    - name: Виконання SQL скрипту
+      run: sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @TestCases.sql
