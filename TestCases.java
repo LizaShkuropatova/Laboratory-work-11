@@ -1,7 +1,7 @@
 import java.sql.*;
 import oracle.jdbc.driver.*;
 
-public class PLSQLTestCases {
+public class TestCases {
     public static void main(String[] args) {
         int testCaseResult = 0; // 0 = Passed, -1 = Failed
 
