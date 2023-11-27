@@ -16,15 +16,16 @@ jobs:
       - name: Install Oracle Instant Client
         run: |
           sudo apt-get install -y libaio1
+          export INSTANT_CLIENT_PATH=~/instantclient_19_9
           wget https://download.oracle.com/otn_software/linux/instantclient/199000/instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-          unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip
-          sudo sh -c "echo /path/to/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf"
+          unzip instantclient-basic-linux.x64-19.9.0.0.0dbru.zip -d $INSTANT_CLIENT_PATH
+          sudo sh -c "echo $INSTANT_CLIENT_PATH > /etc/ld.so.conf.d/oracle-instantclient.conf"
           sudo ldconfig
 
       - name: Print Instant Client Directory Contents
         run: |
-          ls -l /path/to/instantclient
+          ls -l $INSTANT_CLIENT_PATH
 
       - name: Execute SQL on Remote Oracle Server
         run: |
-          /path/to/instantclient/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
+          $INSTANT_CLIENT_PATH/sqlplus shkuropatova/p1P34ab#@//185.235.218.67:1521/XEPDB1 @$GITHUB_WORKSPACE/TestCases.sql
