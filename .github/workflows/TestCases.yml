@@ -23,7 +23,8 @@ jobs:
         mkdir -p lib
 
     - name: Compile and Execute
-      run: |
+      run: 
         cd $GITHUB_WORKSPACE/
-        javac -cp ./ojdbc8.jar TestCases.java
-        java -cp ./ojdbc8.jar TestCases ${{ secrets.LOGIN }} ${{ secrets.PASSWORD }}
+        javac -cp .:ojdbc8.jar TestCases.java
+        java -cp .:ojdbc8.jar TestCases ${{ secrets.LOGIN }} ${{ secrets.PASSWORD }}
+
